@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # === 1. Baca dan ubah ke grayscale ===
-img = cv2.imread("./img/jendela2.jpg")
+img = cv2.imread("./img/jendela.jpg")
 if img is None:
-    raise FileNotFoundError("Gambar tidak ditemukan. Pastikan path './img/jendela2.jpg' benar.")
+    raise FileNotFoundError("Gambar tidak ditemukan. Pastikan path './img/jendela.jpg' benar.")
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
