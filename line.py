@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # === 1. Baca dan ubah ke grayscale ===
-img = cv2.imread("./img/jendela.jpg")
+img = cv2.imread("./img/jendela2.jpg")
 if img is None:
-    raise FileNotFoundError("Gambar tidak ditemukan. Pastikan path './img/jendela.jpg' benar.")
+    raise FileNotFoundError("Gambar tidak ditemukan. Pastikan path './img/jendela2.jpg' benar.")
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -13,28 +13,30 @@ gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray, (5, 5), 0)
 
 # === 3. Deteksi tepi (Canny Edge Detection) ===
-edges = cv2.Canny(blur, 50, 50)
+# Gunakan threshold lebih tinggi agar hanya tepi jalan yang jelas terdeteksi
+edges = cv2.Canny(blur, 70, 180)
 
 # === 4. Deteksi garis dengan Hough Transform Probabilistik ===
 lines = cv2.HoughLinesP(
     edges,
-    rho=1,             # resolusi jarak dalam piksel
-    theta=np.pi / 180, # resolusi sudut dalam radian
-    threshold=125,      # jumlah minimum voting agar dianggap garis
-    minLineLength=5,  # panjang minimum garis
-    maxLineGap=80      # jarak maksimum antar segmen agar dianggap satu garis
+    rho=1,                  # resolusi jarak (piksel)
+    theta=np.pi / 180,      # resolusi sudut (radian)
+    threshold=150,          # jumlah minimum voting agar dianggap garis
+    minLineLength=120,       # panjang minimum garis
+    maxLineGap=50           # jarak maksimum antar segmen agar dianggap satu garis
 )
 
 # === 5. Gambar garis hasil deteksi ===
+output = img.copy()
 if lines is not None:
     for line in lines:
         x1, y1, x2, y2 = line[0]
-        cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.line(output, (x1, y1), (x2, y2), (0, 255, 0), 3)
 
 # === 6. Tampilkan hasil ===
-plt.figure(figsize=(7, 6))
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-plt.title('Deteksi Garis dengan Hough Transform (Versi Stabil)')
+plt.figure(figsize=(8, 6))
+plt.imshow(cv2.cvtColor(output, cv2.COLOR_BGR2RGB))
+plt.title('Deteksi Garis Jalan (HoughLinesP)')
 plt.axis('off')
 plt.show()
 

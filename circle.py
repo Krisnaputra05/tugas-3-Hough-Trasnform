@@ -12,17 +12,26 @@ clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
 gray = clahe.apply(gray)
 
 
-gray_blur = cv2.medianBlur(gray, 7)  # median blur lebih cocok untuk lingkaran
+gray_blur = cv2.medianBlur(gray, 7)
 
 circles = cv2.HoughCircles(
     gray_blur,
     cv2.HOUGH_GRADIENT,
+<<<<<<< HEAD
     dp=1.2,         # resolusi akumulator (1.2 cukup presisi) (lebih detail, lebih cepat)
     minDist=70,     # jarak minimum antar pusat lingkaran (lebih kecil, lebih mendeteksi lingkaran berdekatan)
     param1=150,     # ambang atas Canny edge (lebih kecil, lebih banyak noise)
     param2=50,      # ambang voting lingkaran (semakin kecil = lebih sensitif deteksi lingkaran)
     minRadius=25,   # radius minimum lingkaran (lebih kecil = muncul noise kecil)
     maxRadius=90    # radius maksimum lingkaran (lebih kecil = tidak mendeteksi lingkaran besar)
+=======
+    dp=1.2,         # resolusi akumulator
+    minDist=60,     # jarak minimum antar pusat lingkaran
+    param1=150,     # ambang atas Canny edge
+    param2=40,      # ambang voting lingkaran
+    minRadius=25,   # radius minimum lingkaran
+    maxRadius=90    # radius maksimum lingkaran
+>>>>>>> b1d91b206955abf78f7cc2579770aefc406950e6
 )
 
 if circles is not None:
