@@ -1,23 +1,13 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
-folder = "./img"
-output_folder = "./outputline"
-os.makedirs(output_folder, exist_ok=True)
+# === 1. Baca dan ubah ke grayscale ===
+img = cv2.imread("./img/jendela2.jpg")
 
-# List file gambar
-files = [f for f in os.listdir(folder) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-for i, fname in enumerate(files, start=1):
-    print(f"{i}. {fname}")
+if img is None:
+    raise FileNotFoundError("Gambar tidak ditemukan. Pastikan path benar.")
 
-num = int(input("Pilih nomor gambar: "))
-filename = files[num - 1]
-path = os.path.join(folder, filename)
-img = cv2.imread(path)
-
-# 1. Grayscale + Canny
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 edges = cv2.Canny(gray, 80, 200)
 
